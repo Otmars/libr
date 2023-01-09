@@ -14,7 +14,7 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $datos['empleados']=Empleado::paginate('5');
+        $datos['empleados']=Empleado::all();
         $x="qwe";
         return view('empleado.index',$datos);
     }
@@ -43,7 +43,8 @@ class EmpleadoController extends Controller
             $datosEmpleado['Foto']=$request->file('Foto')->store('uploads','public');
         }
         Empleado::insert($datosEmpleado);
-        return response()->json($datosEmpleado);
+        // return response()->json($datosEmpleado);
+        return redirect('empleado');
     }
 
     /**
@@ -65,7 +66,9 @@ class EmpleadoController extends Controller
      */
     public function edit(Empleado $empleado)
     {
-        //
+        $id= $empleado->id;
+        $empleado = Empleado::findOrFail($id);
+        return view ('empleado.edit', compact('empleado'));
     }
 
     /**
@@ -77,7 +80,10 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, Empleado $empleado)
     {
-        //
+        $id=$empleado->id;
+        $datosEmpleado = $request->except(['_token','_method']);
+        Empleado::where('id','=',$id)->update($datosEmpleado);
+        return redirect('empleado');
     }
 
     /**
