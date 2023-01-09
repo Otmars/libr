@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empleado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmpleadoController extends Controller
 {
@@ -44,7 +45,7 @@ class EmpleadoController extends Controller
         }
         Empleado::insert($datosEmpleado);
         // return response()->json($datosEmpleado);
-        return redirect('empleado');
+        return redirect('empleado')->with('mensaje','Empleado Agregado con exito');
     }
 
     /**
@@ -82,6 +83,13 @@ class EmpleadoController extends Controller
     {
         $id=$empleado->id;
         $datosEmpleado = $request->except(['_token','_method']);
+
+
+        if($request->hasFile('Foto')){
+            Storage::delete('public/'.$empleado->Foto);
+            $datosEmpleado['Foto']=$request->file('Foto')->store('uploads','public');
+        }
+
         Empleado::where('id','=',$id)->update($datosEmpleado);
         return redirect('empleado');
     }
@@ -95,7 +103,8 @@ class EmpleadoController extends Controller
     public function destroy(Empleado $empleado)
     {
         Empleado::destroy($empleado->id);
+        Storage::delete('public/'.$empleado->Foto);
         // return response()->json($empleado);
-        return redirect('empleado');
+        return redirect('empleado')->with('mensaje','Empleado Eliminado con exito');
     }
 }
