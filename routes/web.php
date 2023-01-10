@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,4 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/', [EmpleadoController::class, 'index'])->name('home');
 });
 
+Route::resource('productos', ProductoController::class);
