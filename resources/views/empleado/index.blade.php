@@ -6,8 +6,8 @@
     {{ Session::get('mensaje') }}
     @endif
 
-
-    <a href=" {{url('empleado/create')}} ">Registrar nuevo empleado</a>
+    
+    <a href=" {{url('empleado/create')}} "><button class="btn btn-primary" type="button">Nuevo Empleado</button></a>
     <table class="table table-light">
         <thead class="thead-light">
             <tr>
@@ -29,12 +29,15 @@
                 <td> {{$empleado->ApellidoPaterno}} </td>
                 <td> {{$empleado->ApellidoMaterno}} </td>
                 <td> {{$empleado->Email}} </td>
-                <td> <a href=" {{ url('/empleado/'.$empleado->id.'/edit') }} ">Editar</a> |
+                <td> <a href=" {{ url('/empleado/'.$empleado->id.'/edit') }} "><button class="btn btn-secondary" type="button">Editar</button></a> 
+                
+                |
 
-                    <form method="post" action=" {{url('/empleado/'.$empleado->id)}} ">
+                    <form method="post" action=" {{url('/empleado/'.$empleado->id)}} " class="d-inline">
                         @csrf
                         {{ method_Field('DELETE') }}
-                        <input class="form-control" type="submit" value="Borrar" name="" onclick="return confirm('Deseas borrar '+<?php echo $empleado->id ?>)">
+
+                        <input class="btn btn-danger" type="submit" value="Borrar" onclick="return confirm('Deseas borrar '+<?php echo $empleado->id ?>)">
                     </form>
                 </td>
             </tr>
